@@ -1,0 +1,34 @@
+using System.Collections.Generic;
+using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class QuizScript : MonoBehaviour
+{
+	public Question[] Questions;
+	public Text[] AnswersText;
+	public Text QuestionText;
+
+	int RandomQuestion;
+
+	List<object> QuestionList;
+
+	public void Play()
+	{
+		QuestionList = new List<object>(Questions);
+		GameObject.FindGameObjectWithTag("QuizPanel").GetComponent<Animation>().Play("Begin_Quiz");
+	}
+	void Generate()
+	{
+		RandomQuestion = UnityEngine.Random.Range(0, QuestionList.Count);
+		Question CurrentQuestion = QuestionList[(RandomQuestion)] as Question;
+		QuestionText.text = CurrentQuestion.question;
+		for (int i = 0; i < CurrentQuestion.answers.Length; i++) AnswersText[i].text = CurrentQuestion.answers[i];
+	}
+	[Serializable]
+	public class Question
+	{
+		public string question;
+		public string answers = new string[3];
+	}
+}
